@@ -4,7 +4,7 @@ MCM Browser is a MCM web browser. It uses QtWebEngine rendering engine.
 
 ## Downloads
 
-MCM Browser downloads are available from [homepage](https://www.falkon.org/download/).
+MCM Browser downloads are available from [homepage](minorcarmistake.com/MCMBrowser).
 
 ## Building
 
