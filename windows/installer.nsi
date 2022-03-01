@@ -1,4 +1,4 @@
-; Falkon Windows Installer NSIS Script
+; 5browser Windows Installer NSIS Script
 ; Copyright (C) 2010-2017  David Rosca <nowrep@gmail.com>
 ;               2012-2017  S. Razi Alavizadeh <s.r.alavizadeh@gmail.com>
 ;
@@ -42,9 +42,9 @@ RequestExecutionLevel admin
 !include "wininstall\AllAssociation.nsh"
 SetCompressor /SOLID /FINAL lzma
 
-!define PRODUCT_NAME "Falkon"
+!define PRODUCT_NAME "5browser"
 !define /date PRODUCT_VERSION "${VERSION}"
-!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\falkon.exe"
+!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\5browser.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_CAPABILITIES_KEY "Software\${PRODUCT_NAME}\Capabilities"
@@ -91,10 +91,10 @@ ShowUnInstDetails show
 
 Section "${TITLE_SecMain}" SecMain
   SectionIn RO
-  FindProcDLL::FindProc "falkon.exe"
+  FindProcDLL::FindProc "5browser.exe"
   IntCmp $R0 1 0 notRunning
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${MSG_RunningInstance}" /SD IDOK IDCANCEL AbortInstallation
-    KillProcDLL::KillProc "falkon.exe"
+    KillProcDLL::KillProc "5browser.exe"
     Sleep 100
     Goto notRunning
 AbortInstallation:
@@ -105,7 +105,7 @@ notRunning:
 
   SetOutPath "$INSTDIR"
   File "${FALKON_BIN_DIR}\COPYRIGHT.txt"
-  File "${FALKON_BIN_DIR}\falkon.exe"
+  File "${FALKON_BIN_DIR}\5browser.exe"
   File "${FALKON_BIN_DIR}\falkonprivate.dll"
   File "${FALKON_BIN_DIR}\qt.conf"
   File "${OPENSSL_BIN_DIR}\libeay32.dll"
@@ -232,17 +232,17 @@ SectionGroup "${TITLE_SecSetASDefault}" SecSetASDefault
     Section "${TITLE_SecExtensions}" SecExtensions
       StrCmp $installAsPortable "NO" 0 skipSetExtentions
       SetOutPath "$INSTDIR"
-      ${RegisterAssociation} ".htm" "$INSTDIR\falkon.exe" "FalkonHTML" "Falkon HTML Document" "$INSTDIR\falkon.exe,1" "file"
-      ${RegisterAssociation} ".html" "$INSTDIR\falkon.exe" "FalkonHTML" "Falkon HTML Document" "$INSTDIR\falkon.exe,1" "file"
+      ${RegisterAssociation} ".htm" "$INSTDIR\falkon.exe" "FalkonHTML" "Falkon HTML Document" "$INSTDIR\5browser.exe,1" "file"
+      ${RegisterAssociation} ".html" "$INSTDIR\falkon.exe" "FalkonHTML" "Falkon HTML Document" "$INSTDIR\5browser.exe,1" "file"
       ${UpdateSystemIcons}
       skipSetExtentions:
     SectionEnd
 
     Section "${TITLE_SecProtocols}" SecProtocols
       StrCmp $installAsPortable "NO" 0 skipSecProtocols
-      ${RegisterAssociation} "http" "$INSTDIR\falkon.exe" "FalkonURL" "Falkon URL" "$INSTDIR\falkon.exe,0" "protocol"
-      ${RegisterAssociation} "https" "$INSTDIR\falkon.exe" "FalkonURL" "Falkon URL" "$INSTDIR\falkon.exe,0" "protocol"
-      ${RegisterAssociation} "ftp" "$INSTDIR\falkon.exe" "FalkonURL" "Falkon URL" "$INSTDIR\falkon.exe,0" "protocol"
+      ${RegisterAssociation} "http" "$INSTDIR\falkon.exe" "FalkonURL" "Falkon URL" "$INSTDIR\5browser.exe,0" "protocol"
+      ${RegisterAssociation} "https" "$INSTDIR\falkon.exe" "FalkonURL" "Falkon URL" "$INSTDIR\5browser.exe,0" "protocol"
+      ${RegisterAssociation} "ftp" "$INSTDIR\falkon.exe" "FalkonURL" "Falkon URL" "$INSTDIR\5browser.exe,0" "protocol"
       ${UpdateSystemIcons}
       skipSecProtocols:
     SectionEnd
@@ -253,16 +253,16 @@ Section -StartMenu
   SetOutPath "$INSTDIR"
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\Falkon"
-  CreateShortCut "$SMPROGRAMS\Falkon\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-  CreateShortCut "$SMPROGRAMS\Falkon\Falkon.lnk" "$INSTDIR\falkon.exe"
-  CreateShortCut "$SMPROGRAMS\Falkon\License.lnk" "$INSTDIR\COPYRIGHT.txt"
+  CreateShortCut "$SMPROGRAMS\5browser\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+  CreateShortCut "$SMPROGRAMS\5browser\Falkon.lnk" "$INSTDIR\falkon.exe"
+  CreateShortCut "$SMPROGRAMS\5browser\License.lnk" "$INSTDIR\COPYRIGHT.txt"
   skipStartMenu:
 SectionEnd
 
 Section "${TITLE_SecDesktop}" SecDesktop
   StrCmp $installAsPortable "NO" 0 skipDesktopIcon
   SetOutPath "$INSTDIR"
-  CreateShortCut "$DESKTOP\Falkon.lnk" "$INSTDIR\falkon.exe" ""
+  CreateShortCut "$DESKTOP\Falkon.lnk" "$INSTDIR\5browser.exe" ""
   skipDesktopIcon:
 SectionEnd
 
@@ -282,7 +282,7 @@ SectionEnd
 Section -Uninstaller
   StrCmp $installAsPortable "NO" 0 skipUninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"
-  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\falkon.exe"
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\5browser.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\falkon.exe"
@@ -298,10 +298,10 @@ Section -Uninstaller
 SectionEnd
 
 Section Uninstall
-  FindProcDLL::FindProc "falkon.exe"
+  FindProcDLL::FindProc "5browser.exe"
   IntCmp $R0 1 0 notRunning
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "${MSG_RunningInstance}" /SD IDOK IDCANCEL AbortInstallation
-    KillProcDLL::KillProc "falkon.exe"
+    KillProcDLL::KillProc "5browser.exe"
     Sleep 100
     Goto notRunning
 AbortInstallation:
@@ -311,7 +311,7 @@ notRunning:
   SetShellVarContext all
   Delete "$DESKTOP\Falkon.lnk"
 
-  Delete "$INSTDIR\falkon.exe"
+  Delete "$INSTDIR\5browser.exe"
   Delete "$INSTDIR\falkonprivate.dll"
   Delete "$INSTDIR\uninstall.exe"
   Delete "$INSTDIR\COPYRIGHT.txt"
@@ -358,11 +358,11 @@ notRunning:
   DeleteRegKey HKLM "Software\${PRODUCT_NAME}"
   DeleteRegValue HKLM "SOFTWARE\RegisteredApplications" "${PRODUCT_NAME}"
 
-  ${UnRegisterAssociation} ".htm" "FalkonHTML" "$INSTDIR\falkon.exe" "file"
-  ${UnRegisterAssociation} ".html" "FalkonHTML" "$INSTDIR\falkon.exe" "file"
-  ${UnRegisterAssociation} "http" "FalkonURL" "$INSTDIR\falkon.exe" "protocol"
-  ${UnRegisterAssociation} "https" "FalkonURL" "$INSTDIR\falkon.exe" "protocol"
-  ${UnRegisterAssociation} "ftp" "FalkonURL" "$INSTDIR\falkon.exe" "protocol"
+  ${UnRegisterAssociation} ".htm" "FalkonHTML" "$INSTDIR\5browser.exe" "file"
+  ${UnRegisterAssociation} ".html" "FalkonHTML" "$INSTDIR\5browser.exe" "file"
+  ${UnRegisterAssociation} "http" "FalkonURL" "$INSTDIR\5browser.exe" "protocol"
+  ${UnRegisterAssociation} "https" "FalkonURL" "$INSTDIR\5browser.exe" "protocol"
+  ${UnRegisterAssociation} "ftp" "FalkonURL" "$INSTDIR\5browser.exe" "protocol"
   ${UpdateSystemIcons}
 SectionEnd
 
@@ -398,7 +398,7 @@ Function .onInit
         StrCmp $R0 0 skip
           ;Return when running silent instalation
           IfSilent doAbort 0
-            MessageBox MB_OK|MB_ICONEXCLAMATION "Falkon installer is already running!" /SD IDOK
+            MessageBox MB_OK|MB_ICONEXCLAMATION "5browser installer is already running!" /SD IDOK
         doAbort:
             Abort
     skip:
@@ -412,19 +412,19 @@ Function RegisterCapabilities
             ; even if we don't associate Falkon as default for ".htm" and ".html"
             ; we need to write these ProgIds for future use!
             ;(e.g.: user uses "Default Programs" on Win7 or Vista to set Falkon as default.)
-            ${CreateProgId} "FalkonHTML" "$INSTDIR\falkon.exe" "Falkon HTML Document" "$INSTDIR\falkon.exe,1"
+            ${CreateProgId} "FalkonHTML" "$INSTDIR\falkon.exe" "Falkon HTML Document" "$INSTDIR\5browser.exe,1"
             ${CreateProgId} "FalkonURL" "$INSTDIR\falkon.exe" "Falkon URL" "$INSTDIR\falkon.exe,0"
 
             ; note: these lines just introduce capabilities of Falkon to OS and don't change defaults!
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}" "ApplicationDescription" "${PRODUCT_DESC}"
-            WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}" "ApplicationIcon" "$INSTDIR\falkon.exe,0"
+            WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}" "ApplicationIcon" "$INSTDIR\5browser.exe,0"
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}" "ApplicationName" "${PRODUCT_NAME}"
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\FileAssociations" ".htm" "FalkonHTML"
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\FileAssociations" ".html" "FalkonHTML"
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\URLAssociations" "http" "FalkonURL"
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\URLAssociations" "https" "FalkonURL"
             WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\URLAssociations" "ftp" "FalkonURL"
-            WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\Startmenu" "StartMenuInternet" "$INSTDIR\falkon.exe"
+            WriteRegStr HKLM "${PRODUCT_CAPABILITIES_KEY}\Startmenu" "StartMenuInternet" "$INSTDIR\5browser.exe"
             WriteRegStr HKLM "SOFTWARE\RegisteredApplications" "${PRODUCT_NAME}" "${PRODUCT_CAPABILITIES_KEY}"
         ${EndIf}
     !endif
@@ -432,7 +432,7 @@ skipRegisterCapabilities:
 FunctionEnd
 
 Function RunFalkonAsUser
-    ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\falkon.exe" "open" ""
+    ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\5browser.exe" "open" ""
 FunctionEnd
 
 Function un.onInit
@@ -440,7 +440,7 @@ Function un.onInit
     IfErrors +2 0
         StrCpy $INSTDIR "$R0"
 
-    IfFileExists "$INSTDIR\falkon.exe" found
+    IfFileExists "$INSTDIR\5browser.exe" found
         MessageBox MB_OK|MB_ICONSTOP "${MSG_InvalidInstallPath}"
         Abort
     found:
